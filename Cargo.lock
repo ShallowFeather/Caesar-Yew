@@ -51,6 +51,7 @@ checksum = "b700ce4376041dcd0a327fd0097c41095743c4c8af8887265942faf1100bd040"
 name = "caesar-Yew"
 version = "0.1.0"
 dependencies = [
+ "wasm-bindgen",
  "yew",
 ]
 

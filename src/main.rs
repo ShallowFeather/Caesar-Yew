@@ -1,4 +1,6 @@
 use yew::{Component, ComponentLink, ShouldRender, Html, html, App};
+use wasm_bindgen::prelude::*;
+use yew::prelude::*;
 
 mod input;
 mod caesar;
@@ -45,7 +47,7 @@ impl Component for Output {
             }
             Msg::Encrypt(S, num) => {
                 let res = caesar::encrypt(S, num);
-                self.change_Str(str);
+                self.change_Str(res);
                 true
             }
         }
@@ -72,5 +74,4 @@ impl Component for Output {
 
 
 fn main() {
-    App::<HelloWorld>::new().mount_to_body();
 }
