@@ -1,30 +1,38 @@
-use yew::{Component, ComponentLink, ShouldRender, Html};
+use yew::{Component, ComponentLink, ShouldRender, Html, html, App};
 
 mod input;
 mod caesar;
 
+#[derive(Clone, PartialEq, Properties, Default)]
+pub struct Properties {
+    str: String,
+}
+
 pub enum Msg {
     Decrypt(String, u8),
     Encrypt(String, u8),
-    Delete,
 }
 
-pub struct Model {
+pub struct Output {
     link: ComponentLink<Self>,
-    
+    props: Properties,
 }
 
-#[derive(Properties, Clone, PartialEq)]
-pub struct Props {
-    pub id: PostId,
+impl Output {
+    fn change_Str(&mut self, str: String) {
+        self.props.str = str;
+    }
 }
 
-impl Component for Model {
+impl Component for Output {
     type Message = Msg;
-    type Properties = Props;
+    type Properties = Properties;
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
+            props: Properties {
+                str: "owo".to_string(),
+            },
         }
     }
 
@@ -32,30 +40,37 @@ impl Component for Model {
         match msg {
             Msg::Decrypt(S, num) => {
                 let res = caesar::decrypt(S, num);
+                self.change_Str(res);
                 true
             }
             Msg::Encrypt(S, num) => {
                 let res = caesar::encrypt(S, num);
-
-                true
-            }
-            Msg::Delete => {
-
+                self.change_Str(str);
                 true
             }
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        todo!()
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        if self.props != props {
+            self.props = props;
+            true
+        }
+        else {
+            false
+        }
     }
 
     fn view(&self) -> Html {
-        todo!()
+        html! {
+            <div>
+            </div>
+        }
     }
 }
 
 
-fn main() {
 
+fn main() {
+    App::<HelloWorld>::new().mount_to_body();
 }
