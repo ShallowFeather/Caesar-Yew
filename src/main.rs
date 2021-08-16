@@ -6,15 +6,22 @@ mod caesar;
 pub enum Msg {
     Decrypt(String, u8),
     Encrypt(String, u8),
+    Delete,
 }
 
 pub struct Model {
     link: ComponentLink<Self>,
+    
+}
+
+#[derive(Properties, Clone, PartialEq)]
+pub struct Props {
+    pub id: PostId,
 }
 
 impl Component for Model {
     type Message = Msg;
-    type Properties = ();
+    type Properties = Props;
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
@@ -29,7 +36,11 @@ impl Component for Model {
             }
             Msg::Encrypt(S, num) => {
                 let res = caesar::encrypt(S, num);
-                self.
+
+                true
+            }
+            Msg::Delete => {
+
                 true
             }
         }

@@ -56,15 +56,18 @@ impl Component for TextInput {
 
     fn view(&self) -> Html {
         html! {
+
             <input
                 type="text"
                 value={self.text.clone()}
                 oninput={self.link.callback(|e: InputData| Msg::SetText(e.value))}
                 onkeydown={self.link.batch_callback(move |e: KeyboardEvent| {
                     e.stop_propagation();
-                    if e.key() == "Enter" { Some(Msg::Submit) } else { None }
+                    //if e.key() == "Enter" { Some(Msg::Submit) } else { None }
                 })}
             />
+            <input
+                type=
         }
     }
 }
