@@ -1,4 +1,4 @@
-fn encrypt(s: String, num: u8) -> String {
+pub fn encrypt(s: String, num: u8) -> String {
     let mut res: Vec<char> = vec![' '; s.len()];
     for (i, ch) in s.chars().enumerate() {
         if ch >= 'A' && ch <= 'Z' {
@@ -11,7 +11,7 @@ fn encrypt(s: String, num: u8) -> String {
     res.into_iter().collect()
 }
 
-fn decrypt(s: String, num: u8) -> String {
+pub fn decrypt(s: String, num: u8) -> String {
     let mut res: Vec<char> = vec![' '; s.len()];
     for (i, ch) in s.chars().enumerate() {
         if ch >= 'A' && ch <= 'Z' {
