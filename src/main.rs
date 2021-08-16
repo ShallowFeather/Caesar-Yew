@@ -1,7 +1,7 @@
 mod input;
-mod Caesar;
+mod caesar;
 
 
 fn main() {
-    yew::start_app::<Model>();
+
 }
