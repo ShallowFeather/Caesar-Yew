@@ -16,7 +16,7 @@ struct Model {
     output: String,
 }
 
-impl Component for Model {
+impl Component for Model {1
     type Message = Msg;
     type Properties = ();
 
