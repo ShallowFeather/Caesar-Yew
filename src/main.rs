@@ -1,6 +1,7 @@
 use yew::{Component, ComponentLink, ShouldRender, Html, html, App};
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
+use input::TextInput;
 
 mod input;
 mod caesar;
@@ -20,15 +21,9 @@ pub struct Output {
     props: Properties,
 }
 
-impl Output {
-    fn change_Str(&mut self, str: String) {
-        self.props.str = str;
-    }
-}
-
 impl Component for Output {
     type Message = Msg;
-    type Properties = Properties;
+    type Properties = ();
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
@@ -54,18 +49,19 @@ impl Component for Output {
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.props != props {
-            self.props = props;
-            true
-        }
-        else {
-            false
-        }
+        false
     }
 
     fn view(&self) -> Html {
         html! {
             <div>
+                <TextInput value="New post" onsubmit={self.link.callback(Msg::CreatePost)} />
+                <button class="button" onclick={self.link.callback(|_| Msg::Decrypt)}>
+                        { "decrypt" }
+                </button>
+                <button class="button" onclick={self.link.callback(|_| Msg::Encrypt)}>
+                        { "encrypt" }
+                </button>
             </div>
         }
     }
