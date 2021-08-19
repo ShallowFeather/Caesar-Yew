@@ -1,6 +1,5 @@
 use yew::prelude::*;
 use yew::web_sys::HtmlTextAreaElement;
-use atoi::atoi;
 
 mod caesar;
 
@@ -12,8 +11,6 @@ enum Msg {
 }
 
 struct Model {
-    // `ComponentLink` is like a reference to a component.
-    // It can be used to send messages to the component
     link: ComponentLink<Self>,
     output: String,
     str: String,
@@ -27,7 +24,7 @@ impl Component for Model {
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
-            output: "".to_string(),
+            output: "owo".to_string(),
             str: "".to_string(),
             num: 0,
         }
@@ -36,11 +33,11 @@ impl Component for Model {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Decrypt => {
-                self.output = caesar::decrypt(self.str.clone(), self.num);
+                self.output = caesar::decrypt(self.str.clone(), self.num.clone());
                 true
             }
             Msg::Encrypt => {
-                self.output = caesar::encrypt(self.str.clone(), self.num);
+                self.output = caesar::encrypt(self.str.clone(), self.num.clone());
                 true
             }
             Msg::Str(str) => {
@@ -55,9 +52,6 @@ impl Component for Model {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        // Should only return "true" if new properties are different to
-        // previously received properties.
-        // This component has no properties so we will always return "false".
         false
     }
 
@@ -78,13 +72,12 @@ impl Component for Model {
                 />
                 <button onclick=self.link.callback(|_| Msg::Decrypt)>{ "Decrypt" }</button>
                 <button onclick=self.link.callback(|_| Msg::Encrypt)>{ "Encrypt" }</button>
-                <p>{ self.output.clone() } </p>
+                <p>{ &self.output } </p>
             </div>
         }
     }
 }
 
 fn main() {
-
     yew::start_app::<Model>();
 }
