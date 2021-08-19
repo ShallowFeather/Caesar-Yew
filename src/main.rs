@@ -65,9 +65,9 @@ impl Component for Model {
                     )
                 />
                 <input
-                    type="number" min="0" max="26"
+                    type="text"
                     oninput=self.link.callback(|e: InputData|
-                        Msg::Num(str::parse::<u8>(&e.value).unwrap())
+                        Msg::Num(e.value.parse().unwrap())
                     )
                 />
                 <button onclick=self.link.callback(|_| Msg::Decrypt)>{ "Decrypt" }</button>
