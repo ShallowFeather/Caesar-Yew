@@ -1,8 +1,12 @@
 use yew::prelude::*;
+use yew::web_sys::HtmlTextAreaElement;
+
 
 mod caesar;
 
 enum Msg {
+    Str(String),
+    Num(u8),
     Decrypt,
     Encrypt,
 }
@@ -11,21 +15,21 @@ struct Model {
     // `ComponentLink` is like a reference to a component.
     // It can be used to send messages to the component
     link: ComponentLink<Self>,
+    output: String,
     str: String,
     num: u8,
-    output: String,
 }
 
-impl Component for Model {1
+impl Component for Model {
     type Message = Msg;
     type Properties = ();
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
+            output: "".to_string(),
             str: "".to_string(),
             num: 0,
-            output: "".to_string(),
         }
     }
 
@@ -39,6 +43,14 @@ impl Component for Model {1
                 self.output = caesar::encrypt(self.str.clone(), self.num);
                 true
             }
+            Msg::Str(str) => {
+                self.str = str;
+                true
+            }
+            Msg::Num(num) => {
+                self.num = num;
+                true
+            }
         }
     }
 
@@ -50,20 +62,20 @@ impl Component for Model {1
     }
 
     fn view(&self) -> Html {
-
         html! {
             <div>
                 <input
                     type="text"
-                    oninput={self.link.callback(|e: InputEvent| {
-                    let input: HtmlTextAreaElement = e.target_unchecked_into();
-                    self.str={self.}
-            })}
-                    {self.str}
+                    oninput=self.link.callback(|e: InputData|
+                        Msg::Str(e.value)
+                    )
                 />
                 <input
                     type="number" min="0" max="26"
-                    {self.num}/>
+                    oninput=self.link.callback(|e: InputData|
+                        Msg::Num(e.value.into_bytes())
+                    )
+                />
                 <button onclick=self.link.callback(|_| Msg::Decrypt)>{ "Decrypt" }</button>
                 <button onclick=self.link.callback(|_| Msg::Encrypt)>{ "Encrypt" }</button>
                 <p>{ self.output } </p>
