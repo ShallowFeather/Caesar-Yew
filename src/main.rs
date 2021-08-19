@@ -1,6 +1,6 @@
 use yew::prelude::*;
 use yew::web_sys::HtmlTextAreaElement;
-
+use atoi::atoi;
 
 mod caesar;
 
@@ -73,17 +73,18 @@ impl Component for Model {
                 <input
                     type="number" min="0" max="26"
                     oninput=self.link.callback(|e: InputData|
-                        Msg::Num(e.value.into_bytes())
+                        Msg::Num(str::parse::<u8>(&e.value).unwrap())
                     )
                 />
                 <button onclick=self.link.callback(|_| Msg::Decrypt)>{ "Decrypt" }</button>
                 <button onclick=self.link.callback(|_| Msg::Encrypt)>{ "Encrypt" }</button>
-                <p>{ self.output } </p>
+                <p>{ self.output.clone() } </p>
             </div>
         }
     }
 }
 
 fn main() {
+
     yew::start_app::<Model>();
 }
