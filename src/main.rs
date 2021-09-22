@@ -1,11 +1,12 @@
 use yew::prelude::*;
 use yew::web_sys::HtmlTextAreaElement;
+use gloo_console as console;
 
 mod caesar;
 
 enum Msg {
     Str(String),
-    Num(u8),
+    Num(i32),
     Decrypt,
     Encrypt,
 }
@@ -14,7 +15,7 @@ struct Model {
     link: ComponentLink<Self>,
     output: String,
     str: String,
-    num: u8,
+    num: i32,
 }
 
 impl Component for Model {
@@ -33,6 +34,7 @@ impl Component for Model {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Decrypt => {
+                console::log!("aaa");
                 self.output = caesar::decrypt(self.str.clone(), self.num.clone());
                 true
             }
@@ -41,7 +43,7 @@ impl Component for Model {
                 true
             }
             Msg::Str(str) => {
-                self.str = str;
+                self.str = str.clone();
                 true
             }
             Msg::Num(num) => {
@@ -65,9 +67,9 @@ impl Component for Model {
                     )
                 />
                 <input
-                    type="text"
+                    type="number"
                     oninput=self.link.callback(|e: InputData|
-                        Msg::Num(e.value.parse().unwrap())
+                        Msg::Num(e.value.parse::<i32>().unwrap())
                     )
                 />
                 <button onclick=self.link.callback(|_| Msg::Decrypt)>{ "Decrypt" }</button>

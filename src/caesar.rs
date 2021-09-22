@@ -1,25 +1,57 @@
-pub fn encrypt(s: String, num: u8) -> String {
-    let mut res: Vec<char> = vec![' '; s.len()];
-    for (i, ch) in s.chars().enumerate() {
-        if ch >= 'A' && ch <= 'Z' {
-            res[i] = (((((ch as u8) - ('A' as u8)) + num) % 26) + ('A' as u8)) as char;
-        }
-        else if ch <= 'z' && ch >= 'a' {
-            res[i] = (((((ch as u8) - ('a' as u8)) + num) % 26) + ('a' as u8)) as char
+pub fn encrypt(content: String, offset: i32) -> String {
+    let mut result = String::new();
+
+    for c in content.chars() {
+        if c.is_lowercase() {
+            let i = c as i32 + offset;
+            if i > 122 {
+                let i = 96 + i - 122;
+                result.push(i as u8 as char);
+            } else if i < 97 {
+                let i = 96 + 97 - i;
+                result.push(i as u8 as char);
+            } else {
+                result.push(i as u8 as char);
+            }
+        } else if c.is_uppercase() {
+            let i = c as i32 + offset;
+            if i > 90 {
+                let i = 64 + i - 90;
+                result.push(i as u8 as char);
+            } else if i < 65 {
+                let i = 64 + 65 - i;
+                result.push(i as u8 as char);
+            } else {
+                result.push(i as u8 as char);
+            }
         }
     }
-    res.into_iter().collect()
+
+    result
 }
 
-pub fn decrypt(s: String, num: u8) -> String {
-    let mut res: Vec<char> = vec![' '; s.len()];
-    for (i, ch) in s.chars().enumerate() {
-        if ch >= 'A' && ch <= 'Z' {
-            res[i] = (((((ch as u8) - ('A' as u8)) - num) % 26) + ('A' as u8)) as char;
-        }
-        else if ch <= 'z' && ch >= 'a' {
-            res[i] = (((((ch as u8) - ('a' as u8)) - num) % 26) + ('a' as u8)) as char
+pub fn decrypt(content: String, offset: i32) -> String {
+    let mut result = String::new();
+
+    for c in content.chars() {
+        if c.is_lowercase() {
+            let i = c as i32 - offset;
+            if i < 97 {
+                let i = 122 - (offset - (c as i32 - 97)) + 1;
+                result.push(i as u8 as char);
+            } else {
+                result.push(i as u8 as char);
+            }
+        } else if c.is_uppercase() {
+            let i = c as i32 - offset;
+            if i < 65 {
+                let i = 90 - (offset - (c as i32 - 65)) + 1;
+                result.push(i as u8 as char);
+            } else {
+                result.push(i as u8 as char);
+            }
         }
     }
-    res.into_iter().collect()
+
+    result
 }
